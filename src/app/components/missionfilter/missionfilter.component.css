@@ -1,0 +1,24 @@
+.details-container {
+  padding: 24px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.error-text {
+  color: #c62828;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.details-card {
+  margin-top: 20px;
+  max-width: 800px;
+}
+
+.link-list a {
+  word-break: break-all;
+}

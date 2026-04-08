@@ -1,0 +1,70 @@
+<mat-toolbar color="primary">
+  <span>SpaceX Mission Explorer</span>
+</mat-toolbar>
+
+<div class="page-container">
+  <app-missionfilter
+    (yearSearch)="onYearSearch($event)"
+    (clearSearch)="onClearSearch()"
+  ></app-missionfilter>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <p *ngIf="errorMessage" class="error-text">{{ errorMessage }}</p>
+
+  <div *ngIf="!loading && missions.length === 0" class="empty-state">
+    No missions found.
+  </div>
+
+  <div class="mission-grid" *ngIf="!loading && missions.length > 0">
+    <mat-card class="mission-card" *ngFor="let mission of missions">
+      <div class="card-header">
+        <img
+          *ngIf="mission.links.mission_patch_small"
+          [src]="mission.links.mission_patch_small"
+          [alt]="mission.mission_name"
+          class="mission-patch"
+        />
+
+        <div class="mission-title-block">
+          <h2>{{ mission.mission_name }}</h2>
+          <mat-chip-set>
+            <mat-chip>Flight #{{ mission.flight_number }}</mat-chip>
+            <mat-chip>{{ mission.launch_year }}</mat-chip>
+          </mat-chip-set>
+        </div>
+      </div>
+
+      <mat-card-content>
+        <p><strong>Details:</strong> {{ mission.details || 'No details available.' }}</p>
+
+        <p><strong>Rocket Name:</strong> {{ mission.rocket.rocket_name }}</p>
+        <p><strong>Rocket Type:</strong> {{ mission.rocket.rocket_type }}</p>
+
+        <div class="links-block">
+          <a *ngIf="mission.links.article_link" [href]="mission.links.article_link" target="_blank">
+            Article
+          </a>
+          <a *ngIf="mission.links.wikipedia" [href]="mission.links.wikipedia" target="_blank">
+            Wikipedia
+          </a>
+          <a *ngIf="mission.links.video_link" [href]="mission.links.video_link" target="_blank">
+            Video
+          </a>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          color="accent"
+          [routerLink]="['/missions', mission.flight_number]"
+        >
+          View Details
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

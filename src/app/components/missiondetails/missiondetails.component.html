@@ -1,0 +1,59 @@
+<mat-toolbar color="primary">
+  <span>Mission Details</span>
+</mat-toolbar>
+
+<div class="details-container">
+  <button mat-stroked-button color="primary" routerLink="/missions">
+    ← Back to Mission List
+  </button>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <p *ngIf="errorMessage" class="error-text">{{ errorMessage }}</p>
+
+  <mat-card *ngIf="!loading && mission" class="details-card">
+    <mat-card-header>
+      <img
+        mat-card-avatar
+        *ngIf="mission.links.mission_patch_small"
+        [src]="mission.links.mission_patch_small"
+        [alt]="mission.mission_name"
+      />
+      <mat-card-title>{{ mission.mission_name }}</mat-card-title>
+      <mat-card-subtitle>
+        Flight #{{ mission.flight_number }} | Launch Year: {{ mission.launch_year }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p><strong>Details:</strong> {{ mission.details || 'No details available.' }}</p>
+
+      <p><strong>Rocket Name:</strong> {{ mission.rocket.rocket_name }}</p>
+      <p><strong>Rocket Type:</strong> {{ mission.rocket.rocket_type }}</p>
+
+      <div class="link-list">
+        <p *ngIf="mission.links.mission_patch_small">
+          <strong>Mission Patch:</strong>
+          <a [href]="mission.links.mission_patch_small" target="_blank">Open Image</a>
+        </p>
+
+        <p *ngIf="mission.links.article_link">
+          <strong>Article:</strong>
+          <a [href]="mission.links.article_link" target="_blank">{{ mission.links.article_link }}</a>
+        </p>
+
+        <p *ngIf="mission.links.wikipedia">
+          <strong>Wikipedia:</strong>
+          <a [href]="mission.links.wikipedia" target="_blank">{{ mission.links.wikipedia }}</a>
+        </p>
+
+        <p *ngIf="mission.links.video_link">
+          <strong>Video:</strong>
+          <a [href]="mission.links.video_link" target="_blank">{{ mission.links.video_link }}</a>
+        </p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
